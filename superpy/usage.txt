@@ -1,0 +1,117 @@
+﻿## SuperPy - Userguide ##
+
+This tool is called SuperPy, a command line tool where you can buy and sell products, check the inventory and create reports on revenue and profit. 
+
+Note:
+All entered dates should have the format YYYY-MM-DD, like 2023-03-15
+Prices are all type float, like 3.42
+Quantities (count) have type integer, like 4
+Product names are singular, like ‘apple’, ‘banana’
+
+## Help
+Add -h or --help to the command shows you a help message. This can be used on command or subcommand level. 
+
+Examples
+python superpy.py -h
+python superpy.py buy -h
+
+## Advance_time
+
+You can advance the date to a specified number of days in de future with:
+python superpy.py advance_time [number of days]
+This will be stored in a text file, result.txt
+
+## Buy a product
+
+Record a purchase in bought.csv 
+Use 'buy' as subcommand:
+python superpy.py buy [productname] [price] [expiration date] [count]
+The date the item is bought will automatically be set to today. Expiration date should be a date in the future.
+Each line in bought.csv has an id associated with it. This will be calculated automatically based on the length of the file.
+
+Example
+To to add 300 apples, bought for 0.50
+python superpy.py buy apple 2023-03-15 0.50 2023-04-05 300
+The date the item is bought will automatically be set to today
+
+## Sell a product
+
+Record sales in sold.csv
+Use 'sell' as subcommand:
+python superpy.py sell [productname] [sell price] [count]
+The date of sale will automatically be set to today
+Each line in sold.csv has an id associated with it. This will be calculated automatically based on the length of the file.
+The inventory will be checked to see if the amount of the product is available to sell. Therefor bought.csv and sold.csv needs to be checked on expiration date and quantity available.
+Inventory = amount sellable (from bought.csv) – amount sold (from sold.csv)
+
+Example
+To sell 20 apples for 0.80
+python superpy.py sell apple 0.80 20
+
+## Check inventory
+
+This functions shows the total inventory of products in table format.
+Use 'inventory' as subcommand:
+python superpy.py inventory
+for each product that is available in bought.csv the inventory will be checked, which is the quantity in bought.csv – quantities in sold.csv. 
+
+Example output
+
+╭───────────┬────────────╮
+│ Product   │   Quantity │
+├───────────┼────────────┤
+│ apple     │        875 │
+│ banana    │        290 │
+│ bread     │          4 │
+│ cabbage   │         30 │
+│ cucumber  │      -3105 │
+│ leek      │        300 │
+│ pineapple │         40 │
+│ sprout    │       2907 │
+│ tomato    │         40 │
+╰───────────┴────────────╯
+
+
+## Report on revenue
+
+For the ‘revenue’ function there are a few options to add a date:
+-today (for todays date)
+-yesterday (to use yesterdays date)
+-date (set a specific date)
+-fromdate (from a specific date onwards)
+-todate (until a specific date)
+-fromdate and -todate can be used in combination with each other to specify a daterange
+
+Use 'revenue' as subcommand:
+python superpy.py revenue [-date option]
+
+Examples
+python superpy.py revenue -today
+python superpy.py revenue -yesterday
+python superpy.py revenue -date 2023-03-10
+python superpy.py revenue -fromdate 2023-03-09 -todate 2023-03-15
+
+The output will be a float number.
+
+## Report on profit
+
+For the ‘profit’ function there are a few options to add a date:
+-today (for todays date)
+-yesterday (to use yesterdays date)
+-date (set a specific date)
+-fromdate (from a specific date onwards)
+-todate (until a specific date)
+-fromdate and -todate can be used in combination with each other to specify a daterange
+
+Use 'profit' as subcommand:
+python superpy.py profit [-date option]
+
+Examples
+python superpy.py profit -today
+python superpy.py profit -yesterday
+python superpy.py profit -date 2023-03-10
+python superpy.py profit -fromdate 2023-03-09 -todate 2023-03-15
+
+The output will be a float number.
+
+
